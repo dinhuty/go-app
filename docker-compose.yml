@@ -3,32 +3,33 @@ version: "3.9"
 services:
   app:
     build: .
-    container_name: go-graphql-app
+    container_name: go-app
     ports:
-      - "8080:8080"
+      - "${APP_PORT}:8080"
     depends_on:
       - postgres
       - redis
-    environment: .env
+    env_file:
+      - .env
     volumes:
       - .:/app
     command: ["go", "run", "server.go"]
 
   postgres:
-    image: postgres:16
+    image: postgres
     container_name: postgres-db
     restart: always
     ports:
-      - "5432:5432"
+      - "5452:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
-    image: redis:7
+    image: redis:7-alpine
     container_name: redis-cache
     restart: always
     ports:
