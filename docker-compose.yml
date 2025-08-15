@@ -12,9 +12,8 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app
-    command: ["go", "run", "server.go"]
-
+      - ./:/app
+      
   postgres:
     image: postgres
     container_name: postgres-db

@@ -1,0 +1,3 @@
+```bash
+go generate ./ent
+```

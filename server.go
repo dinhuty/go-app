@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"dinhuty/app-api/ent"
 	"dinhuty/app-api/graph"
 	"fmt"
 	"log"
@@ -9,12 +10,14 @@ import (
 	"os"
 	"time"
 
+	"entgo.io/ent/dialect"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-redis/redis"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 type Cache struct {
@@ -61,6 +64,28 @@ func main() {
 	cache, err := NewCache(redisAddr, 24*time.Hour)
 	if err != nil {
 		log.Fatalf("cannot create APQ redis cache: %v", err)
+	}
+
+	// connect
+	db_host := os.Getenv("DB_HOST")
+	db_port := os.Getenv("DB_PORT")
+	db_user := os.Getenv("DB_USER")
+	db_password := os.Getenv("DB_PASSWORD")
+	db_name := os.Getenv("DB_NAME")
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+		db_host, db_port, db_user, db_name, db_password,
+	)
+
+	client, err := ent.Open(dialect.Postgres, dsn)
+	if err != nil {
+		log.Fatalf("failed opening connection to postgres: %v", err)
+	}
+
+	defer client.Close()
+
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
 	port := os.Getenv("PORT")
