@@ -13,7 +13,6 @@ import (
 	"entgo.io/ent/dialect"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-redis/redis"
 	"github.com/joho/godotenv"
@@ -54,6 +53,7 @@ func (c *Cache) Get(ctx context.Context, key string) (string, bool) {
 }
 
 func main() {
+
 	//load .env
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
@@ -94,13 +94,13 @@ func main() {
 	}
 
 	// create GraphQL server
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(graph.NewSchema(client))
 
-	srv.AddTransport(transport.Options{})
-	srv.AddTransport(transport.GET{})
-	srv.AddTransport(transport.POST{})
+	// srv.AddTransport(transport.Options{})
+	// srv.AddTransport(transport.GET{})
+	// srv.AddTransport(transport.POST{})
 
-	srv.SetQueryCache(nil)
+	// srv.SetQueryCache(nil)
 
 	srv.Use(extension.Introspection{})
 	srv.Use(extension.AutomaticPersistedQuery{

@@ -4,8 +4,16 @@ go 1.24.5
 
 require (
 	github.com/99designs/gqlgen v0.17.78
+	github.com/hashicorp/go-multierror v1.1.1
 	github.com/joho/godotenv v1.5.1
 	github.com/vektah/gqlparser/v2 v2.5.30
+)
+
+require (
+	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
+	golang.org/x/exp v0.0.0-20221230185412-738e83a70c30 // indirect
 )
 
 require (
@@ -26,7 +34,9 @@ require (
 )
 
 require (
+	entgo.io/contrib v0.7.0
 	github.com/agnivade/levenshtein v1.2.1 // indirect
+	github.com/alecthomas/kong v1.12.1
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
@@ -39,7 +49,7 @@ require (
 	github.com/urfave/cli/v2 v2.27.7 // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
 	golang.org/x/mod v0.26.0 // indirect
-	golang.org/x/sync v0.16.0 // indirect
+	golang.org/x/sync v0.16.0
 	golang.org/x/text v0.27.0 // indirect
 	golang.org/x/tools v0.35.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

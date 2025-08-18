@@ -4,11 +4,11 @@ schema:
 
 # Where should the generated server code go?
 exec:
-  package: graph
   layout: single-file # Only other option is "follow-schema," ie multi-file.
 
   # Only for single-file layout:
-  filename: graph/generated.go
+  filename: graph/generated/generated.go
+  package: generated
 
   # Only for follow-schema layout:
   # dir: graph
@@ -26,12 +26,12 @@ exec:
 #     computed_requires: true
 
 # Where should any generated models go?
-model:
-  filename: graph/model/models_gen.go
-  package: model
+# model:
+#   filename: graph/model/models_gen.go
+#   package: model
 
-  # Optional: Pass in a path to a new gotpl template to use for generating the models
-  # model_template: [your/path/model.gotpl]
+# Optional: Pass in a path to a new gotpl template to use for generating the models
+# model_template: [your/path/model.gotpl]
 
 # Where should the resolver implementations go?
 resolver:
@@ -43,7 +43,7 @@ resolver:
 
   # Only for follow-schema layout:
   dir: graph
-  filename_template: "{name}.resolvers.go"
+  # filename_template: "{name}.resolvers.go"
 
   # Optional: turn on to not generate template comments above resolvers
   # omit_template_comment: false
@@ -121,7 +121,7 @@ call_argument_directives_with_null: true
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 autobind:
-#  - "dinhuty/app-api/graph/model"
+  - "dinhuty/app-api/ent"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
@@ -135,7 +135,7 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
-  # gqlgen provides a default GraphQL UUID convenience wrapper for github.com/google/uuid 
+  # gqlgen provides a default GraphQL UUID convenience wrapper for github.com/google/uuid
   # but you can override this to provide your own GraphQL UUID implementation
   UUID:
     model:
